@@ -1,41 +1,80 @@
-import { Toaster } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import NotFound from "@/pages/NotFound";
 import { Route, Switch } from "wouter";
-import ErrorBoundary from "./components/ErrorBoundary";
-import { ThemeProvider } from "./contexts/ThemeContext";
-import Home from "./pages/Home";
-import Convite from "./pages/Convite";
 
-function Router() {
+import Login from "./pages/Login";
+import AdminLayout from "./pages/admin/AdminLayout";
+import Dashboard from "./pages/admin/Dashboard";
+import Fotos from "./pages/admin/Fotos";
+import Presentes from "./pages/admin/Presentes";
+import Pagamentos from "./pages/admin/Pagamentos";
+import Convidados from "./pages/admin/Convidados";
+import Configuracoes from "./pages/admin/Configuracoes";
+
+import ProtectedRoute from "./components/admin/ProtectedRoute";
+
+// páginas públicas (ajuste se tiver)
+import Convite from "./pages/Convite";
+import Home from "./pages/Home";
+import NotFound from "./pages/NotFound";
+
+export default function Router() {
   return (
     <Switch>
-      {/* Landing Premium */}
+      {/* 🌐 Públicas */}
       <Route path="/" component={Convite} />
-
-      {/* Site oficial */}
       <Route path="/celebracao" component={Home} />
+      <Route path="/login" component={Login} />
 
-      {/* Página 404 */}
-      <Route path="/404" component={NotFound} />
+      {/* 🔐 ADMIN */}
+      <Route path="/admin">
+        <ProtectedRoute>
+          <AdminLayout>
+            <Dashboard />
+          </AdminLayout>
+        </ProtectedRoute>
+      </Route>
 
-      {/* Fallback */}
+      <Route path="/admin/fotos">
+        <ProtectedRoute>
+          <AdminLayout>
+            <Fotos />
+          </AdminLayout>
+        </ProtectedRoute>
+      </Route>
+
+      <Route path="/admin/presentes">
+        <ProtectedRoute>
+          <AdminLayout>
+            <Presentes />
+          </AdminLayout>
+        </ProtectedRoute>
+      </Route>
+
+      <Route path="/admin/pagamentos">
+        <ProtectedRoute>
+          <AdminLayout>
+            <Pagamentos />
+          </AdminLayout>
+        </ProtectedRoute>
+      </Route>
+
+      <Route path="/admin/convidados">
+        <ProtectedRoute>
+          <AdminLayout>
+            <Convidados />
+          </AdminLayout>
+        </ProtectedRoute>
+      </Route>
+
+      <Route path="/admin/configuracoes">
+        <ProtectedRoute>
+          <AdminLayout>
+            <Configuracoes />
+          </AdminLayout>
+        </ProtectedRoute>
+      </Route>
+
+      {/* ❌ fallback */}
       <Route component={NotFound} />
     </Switch>
   );
 }
-
-function App() {
-  return (
-    <ErrorBoundary>
-      <ThemeProvider defaultTheme="light">
-        <TooltipProvider>
-          <Toaster />
-          <Router />
-        </TooltipProvider>
-      </ThemeProvider>
-    </ErrorBoundary>
-  );
-}
-
-export default App;

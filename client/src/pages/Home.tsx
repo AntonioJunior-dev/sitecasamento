@@ -14,18 +14,97 @@ import {
 // LISTA DE PRESENTES - EDITE AQUI OS ITENS E VALORES
 // ============================================================
 const GIFT_LIST = [
-  { id: 1, name: "Jogo de Panelas Antiaderente", description: "Conjunto completo para a cozinha", price: 350, icon: "🍳", category: "Cozinha" },
-  { id: 2, name: "Liquidificador", description: "Liquidificador potente 1000W", price: 180, icon: "🥤", category: "Cozinha" },
-  { id: 3, name: "Air Fryer", description: "Fritadeira elétrica sem óleo", price: 450, icon: "🍟", category: "Eletrodomésticos" },
-  { id: 4, name: "Micro-ondas", description: "Micro-ondas 30 litros", price: 600, icon: "📦", category: "Eletrodomésticos" },
-  { id: 5, name: "Cafeteira Elétrica", description: "Cafeteira com timer programável", price: 220, icon: "☕", category: "Cozinha" },
-  { id: 6, name: "Aspirador de Pó", description: "Aspirador vertical sem fio", price: 380, icon: "🧹", category: "Eletrodomésticos" },
-  { id: 7, name: "Jogo de Cama Queen", description: "Jogo completo 400 fios", price: 280, icon: "🛏️", category: "Quarto" },
-  { id: 8, name: "Jogo de Toalhas", description: "Kit 8 peças felpudo premium", price: 160, icon: "🛁", category: "Banheiro" },
-  { id: 9, name: "Batedeira Planetária", description: "Batedeira 5 velocidades 1000W", price: 420, icon: "🎂", category: "Cozinha" },
-  { id: 10, name: "Smart TV 43\"", description: "Televisão 4K com Wi-Fi", price: 1800, icon: "📺", category: "Eletrônicos" },
+  {
+    id: 1,
+    name: "Jogo de Panelas Antiaderente",
+    description: "Conjunto completo para a cozinha",
+    price: 350,
+    image:
+      "https://images.unsplash.com/photo-1556911220-bff31c812dba?auto=format&fit=crop&w=800&q=80",
+    category: "Cozinha",
+  },
+  {
+    id: 2,
+    name: "Liquidificador",
+    description: "Liquidificador potente 1000W",
+    price: 180,
+    image:
+      "https://images.unsplash.com/photo-1570222094114-d054a817e56b?auto=format&fit=crop&w=800&q=80",
+    category: "Cozinha",
+  },
+  {
+    id: 3,
+    name: "Air Fryer",
+    description: "Fritadeira elétrica sem óleo",
+    price: 450,
+    image:
+      "https://images.unsplash.com/photo-1585238342024-78d387f4a707?auto=format&fit=crop&w=800&q=80",
+    category: "Eletrodomésticos",
+  },
+  {
+    id: 4,
+    name: "Micro-ondas",
+    description: "Micro-ondas 30 litros",
+    price: 600,
+    image:
+      "https://images.unsplash.com/photo-1585659722983-3a675dabf23d?auto=format&fit=crop&w=800&q=80",
+    category: "Eletrodomésticos",
+  },
+  {
+    id: 5,
+    name: "Cafeteira Elétrica",
+    description: "Cafeteira com timer programável",
+    price: 220,
+    image:
+      "https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=800&q=80",
+    category: "Cozinha",
+  },
+  {
+    id: 6,
+    name: "Aspirador de Pó",
+    description: "Aspirador vertical sem fio",
+    price: 380,
+    image:
+      "https://images.unsplash.com/photo-1558317374-067fb5f30001?auto=format&fit=crop&w=800&q=80",
+    category: "Eletrodomésticos",
+  },
+  {
+    id: 7,
+    name: "Jogo de Cama Queen",
+    description: "Jogo completo 400 fios",
+    price: 280,
+    image:
+      "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=800&q=80",
+    category: "Quarto",
+  },
+  {
+    id: 8,
+    name: "Jogo de Toalhas",
+    description: "Kit 8 peças felpudo premium",
+    price: 160,
+    image:
+      "https://images.unsplash.com/photo-1584622781564-1d987f7333c1?auto=format&fit=crop&w=800&q=80",
+    category: "Banheiro",
+  },
+  {
+    id: 9,
+    name: "Batedeira Planetária",
+    description: "Batedeira 5 velocidades 1000W",
+    price: 420,
+    image:
+      "https://images.unsplash.com/photo-1517673132405-a56a62b18caf?auto=format&fit=crop&w=800&q=80",
+    category: "Cozinha",
+  },
+  {
+    id: 10,
+    name: 'Smart TV 43"',
+    description: "Televisão 4K com Wi-Fi",
+    price: 1800,
+    image:
+      "https://images.unsplash.com/photo-1593784991095-a205069470b6?auto=format&fit=crop&w=800&q=80",
+    category: "Eletrônicos",
+  },
 ];
-
 // ============================================================
 // DADOS DO PIX - EDITE AQUI
 // ============================================================
@@ -38,7 +117,14 @@ const PIX_DATA = {
 
 // ============================================================
 
-type GiftItem = typeof GIFT_LIST[number];
+type GiftItem = {
+  id: number;
+  name: string;
+  description: string;
+  price: number;
+  image: string;
+  category: string;
+};
 
 function formatCurrency(value: number) {
   return value.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
@@ -51,18 +137,12 @@ function GiftModal({
   gift: GiftItem;
   onClose: () => void;
 }) {
-  const [paymentMethod, setPaymentMethod] = useState<"pix" | "card">("pix");
-  const [copied, setCopied] = useState(false);
-  const [customValue, setCustomValue] = useState(gift.price);
-  const [cardData, setCardData] = useState({
-    name: "",
-    number: "",
-    expiry: "",
-    cvv: "",
-  });
-  const [cardSuccess, setCardSuccess] = useState(false);
+const [paymentMethod, setPaymentMethod] = useState<"pix" | "card">("pix");
+const [copied, setCopied] = useState(false);
+const customValue = gift.price;
+const [cardSuccess, setCardSuccess] = useState(false);
 
-  const pixMessage = `Presente: ${gift.name} - ${formatCurrency(customValue)}`;
+  const pixMessage = `Presente: ${gift.name} - ${formatCurrency(gift.price)}`;
 
   const handleCopyPix = () => {
     navigator.clipboard.writeText(PIX_DATA.key);
@@ -72,21 +152,23 @@ function GiftModal({
 
   const handleWhatsAppPix = () => {
     const msg = encodeURIComponent(
-      `Olá! Quero presentear vocês com: ${gift.name} no valor de ${formatCurrency(customValue)}.\nVou enviar o Pix para a chave: ${PIX_DATA.key} (${PIX_DATA.keyType}) - ${PIX_DATA.bank}`
+      `Olá! Quero presentear vocês com: ${gift.name} no valor de ${formatCurrency(gift.price)}.\nVou enviar o Pix para a chave: ${PIX_DATA.key} (${PIX_DATA.keyType}) - ${PIX_DATA.bank}`
     );
     window.open(`https://wa.me/5585994329899?text=${msg}`, "_blank");
   };
 
-  const handleCardSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Aqui você pode integrar com gateway de pagamento real (ex: Stripe, Mercado Pago)
-    // Por ora, abre WhatsApp para confirmar
-    const msg = encodeURIComponent(
-      `Olá! Quero presentear vocês com: ${gift.name} no valor de ${formatCurrency(customValue)} via cartão de crédito. Podem me enviar o link de pagamento?`
-    );
-    window.open(`https://wa.me/5585994329899?text=${msg}`, "_blank");
-    setCardSuccess(true);
-  };
+const handleCardSubmit = () => {
+  console.log("Abrindo Mercado Pago. ID:", gift.id);
+
+  if (gift.id === 1) {
+    window.location.href = "https://mpago.la/11ncz82";
+    return;
+  }
+
+  alert(
+    `Pagamento por cartão ainda não configurado para "${gift.name}". ID: ${gift.id}`
+  );
+};
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm" onClick={onClose}>
@@ -96,13 +178,23 @@ function GiftModal({
       >
         {/* Header */}
         <div className="flex items-center justify-between p-6 border-b border-gray-100">
-          <div className="flex items-center gap-3">
-            <span className="text-3xl">{gift.icon}</span>
-            <div>
-              <h3 className="font-heading text-lg text-[#2F2F2F]">{gift.name}</h3>
-              <p className="text-sm text-gray-500">{gift.description}</p>
-            </div>
-          </div>
+         <div className="flex items-center gap-4">
+  <img
+    src={gift.image}
+    alt={gift.name}
+    className="w-20 h-20 rounded-xl object-cover"
+  />
+
+  <div>
+    <h3 className="font-heading text-lg text-[#2F2F2F]">
+      {gift.name}
+    </h3>
+
+    <p className="text-sm text-gray-500">
+      {gift.description}
+    </p>
+  </div>
+</div>
           <button
             onClick={onClose}
             className="p-2 rounded-full hover:bg-gray-100 transition-colors"
@@ -112,26 +204,20 @@ function GiftModal({
         </div>
 
         <div className="p-6">
-          {/* Valor editável */}
-          <div className="mb-6">
-            <label className="block text-sm font-heading text-[#2F2F2F] mb-2">
-              Valor do presente (editável)
-            </label>
-            <div className="flex items-center gap-2">
-              <span className="text-[#556B2F] font-semibold text-lg">R$</span>
-              <input
-                type="number"
-                min={1}
-                value={customValue}
-                onChange={(e) => setCustomValue(Number(e.target.value))}
-                className="flex-1 px-4 py-3 rounded-lg border border-[#3A4A28]/30 focus:outline-none focus:border-[#556B2F] text-lg font-semibold text-[#556B2F]"
-              />
-            </div>
-            <p className="text-xs text-gray-400 mt-1">
-              Valor sugerido: {formatCurrency(gift.price)}. Fique à vontade para ajustar.
-            </p>
-          </div>
+          {/* Valor fixo */}
+          <div className="mb-6 text-center bg-[#FAFAF7] rounded-xl p-5 border border-[#3A4A28]/20">
+  <p className="text-sm text-gray-500 mb-2">
+    Valor do presente
+  </p>
 
+  <p className="text-4xl font-bold text-[#556B2F]">
+    {formatCurrency(gift.price)}
+  </p>
+
+  <p className="text-xs text-gray-400 mt-2">
+    O valor deste presente é fixo.
+  </p>
+</div>
           {/* Seleção de método de pagamento */}
           <div className="flex gap-3 mb-6">
             <button
@@ -160,7 +246,7 @@ function GiftModal({
 
           {/* PIX */}
           {paymentMethod === "pix" && (
-            <div className="space-y-4">
+            <div className="space-y-2">
               <div className="bg-[#FAFAF7] rounded-xl p-5 border border-[#3A4A28]/20">
                 <div className="text-center mb-4">
                   <div className="inline-flex items-center justify-center w-16 h-16 bg-[#556B2F]/10 rounded-full mb-3">
@@ -193,7 +279,7 @@ function GiftModal({
 
               <div className="bg-amber-50 border border-amber-200 rounded-xl p-4">
                 <p className="text-sm text-amber-800 font-body text-center">
-                  Após realizar o Pix, clique abaixo para nos avisar via WhatsApp 💚
+                  Após concluir o pagamento, clique abaixo para nos enviar a confirmação pelo WhatsApp.
                 </p>
               </div>
 
@@ -204,53 +290,70 @@ function GiftModal({
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
                 </svg>
-                Avisar pelo WhatsApp
+                Confirmar pagamento pelo WhatsApp
               </button>
             </div>
           )}
-
-          {/* CARTÃO */}
-          {paymentMethod === "card" && (
-            <div className="space-y-4">
-              {cardSuccess ? (
-                <div className="text-center py-6">
-                  <div className="inline-flex items-center justify-center w-16 h-16 bg-green-100 rounded-full mb-4">
-                    <Check className="w-8 h-8 text-green-500" />
-                  </div>
-                  <p className="font-heading text-lg text-[#2F2F2F]">Solicitação enviada!</p>
-                  <p className="text-sm text-gray-500 mt-2">Entraremos em contato via WhatsApp com o link de pagamento.</p>
-                </div>
-              ) : (
-                <>
-                  <div className="bg-blue-50 border border-blue-200 rounded-xl p-4">
-                    <p className="text-sm text-blue-800 font-body text-center">
-                      Clique abaixo para solicitar o link de pagamento via cartão pelo WhatsApp.
-                    </p>
-                  </div>
-                  <div className="bg-[#FAFAF7] rounded-xl p-5 border border-[#3A4A28]/20 text-center">
-                    <CreditCard className="w-12 h-12 text-[#556B2F] mx-auto mb-3" />
-                    <p className="font-heading text-[#2F2F2F] mb-1">Pagamento via Cartão</p>
-                    <p className="text-sm text-gray-500">Aceitamos crédito e débito</p>
-                    <p className="text-lg font-bold text-[#556B2F] mt-3">{formatCurrency(customValue)}</p>
-                  </div>
-                  <button
-                    onClick={handleCardSubmit}
-                    className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-green-500 hover:bg-green-600 text-white font-heading text-sm transition-all"
-                  >
-                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-                    </svg>
-                    Solicitar link pelo WhatsApp
-                  </button>
-                </>
-              )}
-            </div>
-          )}
+{/* CARTÃO */}
+{paymentMethod === "card" && (
+  <div className="space-y-4">
+    {cardSuccess ? (
+      <div className="text-center py-6">
+        <div className="inline-flex items-center justify-center w-16 h-16 bg-green-100 rounded-full mb-4">
+          <Check className="w-8 h-8 text-green-500" />
         </div>
+
+        <p className="font-heading text-lg text-[#2F2F2F]">
+          Redirecionando para o pagamento...
+        </p>
       </div>
+    ) : (
+      <>
+        <div className="bg-blue-50 border border-blue-200 rounded-xl p-4">
+          <p className="text-sm text-blue-800 font-body text-center">
+            Clique abaixo para ir para o pagamento com cartão.
+          </p>
+        </div>
+
+        <div className="bg-[#FAFAF7] rounded-xl p-3 border border-[#3A4A28]/20 text-center">
+  <CreditCard className="w-10 h-10 text-[#556B2F] mx-auto mb-2" />
+
+  <p className="font-heading text-sm text-[#2F2F2F]">
+    Pagamento via Cartão
+  </p>
+
+  <p className="text-xs text-gray-500">
+    Aceitamos crédito e débito
+  </p>
+
+  <p className="text-base font-bold text-[#556B2F] mt-2">
+    {formatCurrency(gift.price)}
+  </p>
+</div>
+
+        <button
+          type="button"
+          onClick={() => {
+            window.open(
+              "https://mpago.la/11ncz82",
+              "_blank",
+              "noopener,noreferrer"
+            );
+          }}
+          className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-green-500 hover:bg-green-600 text-white font-heading text-sm transition-all"
+        >
+          <CreditCard className="w-5 h-5" />
+          Pagar com Cartão
+        </button>
+      </>
+    )}
+  </div>
+)}      </div>
     </div>
-  );
+  </div>
+);
 }
+
 
 function GiftsSection() {
   const [selectedGift, setSelectedGift] = useState<GiftItem | null>(null);
@@ -269,10 +372,11 @@ function GiftsSection() {
               Lista de Presentes
             </h2>
           </div>
-          <p className="text-gray-500 font-body max-w-xl mx-auto">
-            Sua presença é o nosso maior presente. Mas, caso deseje nos presentear,
-            escolha um item abaixo e pague via <strong>Pix</strong> ou <strong>Cartão</strong>.
-          </p>
+<p className="text-gray-500 font-body max-w-2xl mx-auto leading-relaxed">
+  Sua presença é o nosso maior presente. Porém, se desejar participar da
+  construção do nosso novo lar, escolha um dos itens abaixo. Cada presente
+  possui valor fixo e pode ser pago via <strong>Pix</strong> ou <strong>Cartão</strong>.
+</p>
         </div>
 
         {/* Filtro por categoria */}
@@ -297,26 +401,34 @@ function GiftsSection() {
           {filtered.map((gift) => (
             <div
               key={gift.id}
-              className="bg-white rounded-2xl shadow-md border border-[#3A4A28]/10 p-6 flex flex-col hover:shadow-xl hover:-translate-y-1 transition-all duration-300 cursor-pointer group"
+              className="bg-white rounded-3xl overflow-hidden shadow-md border border-[#3A4A28]/10 p-5 flex flex-col hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 cursor-pointer group"
               onClick={() => setSelectedGift(gift)}
             >
-              <div className="flex items-start justify-between mb-4">
-                <span className="text-4xl">{gift.icon}</span>
-                <span className="text-xs font-heading bg-[#556B2F]/10 text-[#556B2F] px-3 py-1 rounded-full">
-                  {gift.category}
-                </span>
-              </div>
-              <h3 className="font-heading text-lg text-[#2F2F2F] mb-1">{gift.name}</h3>
-              <p className="text-sm text-gray-400 font-body mb-4 flex-1">{gift.description}</p>
-              <div className="flex items-center justify-between mt-auto">
-                <span className="text-xl font-bold text-[#556B2F]">
-                  {formatCurrency(gift.price)}
-                </span>
-                <button className="flex items-center gap-1 bg-[#556B2F] group-hover:bg-[#3A4A28] text-white text-sm font-heading px-4 py-2 rounded-full transition-all">
-                  <ShoppingBag className="w-4 h-4" />
-                  Presentear
-                </button>
-              </div>
+             <div className="relative mb-4">
+  <img
+    src={gift.image}
+    alt={gift.name}
+    className="w-full h-52 object-cover rounded-2xl"
+  />
+
+  <span className="absolute top-3 right-3 text-xs font-heading bg-white/95 backdrop-blur-sm text-[#556B2F] px-3 py-1 rounded-full shadow-sm">
+    {gift.category}
+  </span>
+</div>
+              <h3 className="font-heading text-xl text-[#2F2F2F] mb-2">{gift.name}</h3>
+              <p className="text-sm text-gray-500 font-body mb-5 flex-1 leading-relaxed">{gift.description}</p>
+             <div className="flex items-center justify-between mt-auto">
+  <span className="text-2xl font-bold text-[#556B2F]">
+    {formatCurrency(gift.price)}
+  </span>
+
+  <button
+    className="flex items-center gap-2 bg-[#556B2F] group-hover:bg-[#3A4A28] text-white text-sm font-heading px-5 py-2 rounded-full transition-all shadow-md"
+  >
+    <ShoppingBag className="w-4 h-4" />
+    Presentear
+  </button>
+</div>
             </div>
           ))}
         </div>
@@ -324,9 +436,11 @@ function GiftsSection() {
         {/* Bloco Pix direto */}
         <div className="bg-white rounded-2xl shadow-md border border-[#3A4A28]/20 p-8 text-center max-w-md mx-auto">
           <Smartphone className="w-10 h-10 text-[#556B2F] mx-auto mb-4" />
-          <h3 className="font-heading text-xl text-[#2F2F2F] mb-2">Pix Direto</h3>
-          <p className="text-sm text-gray-500 font-body mb-4">
-            Prefere enviar um valor livre? Use a chave abaixo.
+          <h3 className="font-heading text-2xl text-[#2F2F2F] mb-2">
+  Presente via Pix
+</h3>
+          <p className="text-sm text-gray-500 font-body mb-4 leading-relaxed">
+          Caso prefira contribuir espontaneamente, utilize nossa chave Pix abaixo.
           </p>
           <div className="bg-[#FAFAF7] rounded-xl p-4 mb-4">
             <p className="text-xs text-gray-400 mb-1">{PIX_DATA.keyType} • {PIX_DATA.bank}</p>
